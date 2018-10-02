@@ -27,12 +27,28 @@ export class SessionproviderService {
     else this.router.navigate(['/cours/public']);
   }
   redirectIfNotAdmin():void{
-    if(this.user!=null&&this.user.role!=null)
+    console.log("verification des droits "+this.user);
     if (this.user.role.nom.includes('admin'))
       return;
     else if (this.user.role.nom.includes('teacher'))
-      this.router.navigate(['/dashborad'])
-    else this.router.navigate(['/dashborad']);
+      this.router.navigate(['/'])
+    else this.router.navigate(['/']);
+  }
+  redirectIfNotTeacher():void{
+    if (this.user.role.nom.includes('teacher'))
+      return;
+    else this.router.navigate(['/']);
+  }
+  redirectIfNotStudent():void{
+    if (this.user.role.nom.includes('student'))
+      return;
+    else this.router.navigate(['/']);
+  }
+  ifNotStudent():boolean{
+    if(this.user!=null&&this.user.role!=null)
+    if (this.user.role.nom.includes('student'))
+      return true;
+    else return false;
   }
 
   redirectAfterLogin() {

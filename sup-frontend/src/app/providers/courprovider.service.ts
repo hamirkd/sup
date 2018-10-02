@@ -1,8 +1,8 @@
 
 import { Injectable } from '@angular/core';
-import { Cour } from './models/cour.model';
 import { Headers, Http } from '@angular/http';
-import { User } from './models/user.model';
+import { Cour } from '../models/cour.model';
+import { User } from '../models/user.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -28,6 +28,12 @@ export class CourproviderService {
 
   getMyCours(user:User): Promise<Cour[]>{
     return this.http.get(this.baseUrl+'/api/cours/users/'+user.id)
+    .toPromise()
+    .then(response=>response.json() as Cour[])
+    .catch(this.handleError);
+  }
+  getMyCoursSuivi(user:User): Promise<Cour[]>{
+    return this.http.get(this.baseUrl+'/api/cours/users/suivi/'+user.id)
     .toPromise()
     .then(response=>response.json() as Cour[])
     .catch(this.handleError);

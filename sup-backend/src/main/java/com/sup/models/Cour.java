@@ -1,6 +1,7 @@
 package com.sup.models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -28,18 +29,30 @@ public class Cour {
 	@Field("users")
 	private User user;
 
+	@DBRef
+	@Field("classes")
+	private List<Classe> classes;
+	
+	@DBRef
+	@Field("usersSuivi")
+	private List<User> usersSuivi;
+
 	private Date createdAt;
 
 	private Boolean visibilite;
 
-	public Cour(String titre, String contenu, User user, Boolean visibilite) {
+	public Cour(String titre, String contenu, User user, Boolean visibilite,List<Classe> classes) {
 		this.titre = titre;
 		this.contenu = contenu;
 		this.user = user;
 		this.visibilite = visibilite;
+		this.classes=classes;
 		createdAt = new Date();
 	}	
-
+	public List<Classe> getClasses() {
+		return classes;
+	}
+	
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -59,7 +72,9 @@ public class Cour {
 	public User getUser() {
 		return user;
 	}
-
+	public List<User> getUsersSuivi() {
+		return usersSuivi;
+	}
 	public void setContenu(String contenu) {
 		this.contenu = contenu;
 	}
@@ -84,5 +99,7 @@ public class Cour {
 		this.contenu = cour.contenu;
 		this.titre = cour.titre;
 		this.visibilite = cour.visibilite;
+		this.classes=cour.classes;
+		this.usersSuivi=cour.usersSuivi;
 	}
 }

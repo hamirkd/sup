@@ -1,0 +1,28 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <p>Recherche : 
+            <input (keyup)="onKey($event)">
+          </p>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 col-md-4" *ngFor="let cour of cours">
+      <div class="card">
+        <div class="card-header">
+          {{cour.titre}}
+          <span class="badge float-right">{{cour.createdAt}}</span>
+        </div>
+        <div class="card-body" [innerHTML]="cour.contenu">
+        </div>
+        <div class="card-footer">
+            <div >
+                <div *ngIf="sessionprovider.ifNotStudent()">
+                <button class="fa fa-edit btn-primary" (click)="suivre(cour)" *ngIf="!verificateur(cour)">Suivre</button>
+                <button class="fa fa-edit btn-default" (click)="suivre(cour)" *ngIf="verificateur(cour)">Ne plus suivre</button>
+              </div>Auteur : {{cour.user.username}}
+          </div>
+        </div>
+      </div>
+    </div><!--/.col-->
+    </div><!--/.row-->
+  </div>
+  

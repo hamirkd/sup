@@ -3,6 +3,7 @@ package com.sup.controllers;
 import javax.validation.Valid;
 
 import com.sup.models.Cour;
+import com.sup.models.User;
 import com.sup.services.CourService;
 import com.sup.services.UserService;
 
@@ -27,18 +28,22 @@ public class CourController {
 	public List<Cour> getAllCours() {
 		return courService.listeDeTousLesCoursPublic();
 	}
-	/*
-	 * @GetMapping("/users/{user}") public List<Cour>
-	 * getMyCours(@PathVariable("user") User user) { return
-	 * courService.listeDeSesCours(userService.find); }
-	 */
+	
+	  @GetMapping("/users/{user}")
+	  public List<Cour> getMyCours(@PathVariable("user") User user) { 
+		  return  courService.listMyCoursSort(user,null); 
+	  }
+	
+	  @GetMapping("/users/suivi/{user}")
+	  public List<Cour> getMyCoursSuivi(@PathVariable("user") User user) { 
+		  return  courService.listMyCoursSuiviSort(user,null); 
+	  }
+	 
 
 	@PostMapping("")
 	public Cour createCour(@Valid @RequestBody Cour cour) {
 		//cour.getUser().setCours(null);
-		Cour courData = courService.creerCour(cour);
-		System.out.println(userService.addCour(courData));
-		return courData;
+		return courService.createCour(cour);
 	}
 
 	@GetMapping(value = "/{id}")
@@ -53,9 +58,7 @@ public class CourController {
 
 	@PutMapping(value = "/{id}")
 	public Cour updateCour(@PathVariable("id") String id, @Valid @RequestBody Cour cour) {
-		Cour o = courService.modifierCour(id, cour);
-		userService.modifyCour(o);
-		return o;
+		return courService.modifierCour(id, cour);
 	}
 
 	@DeleteMapping(value = "/{id}")

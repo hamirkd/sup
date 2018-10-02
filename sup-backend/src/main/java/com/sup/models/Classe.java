@@ -11,9 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Document(collection = "roles")
+@Document(collection = "classes")
 @JsonIgnoreProperties(value = { "createdAt" }, allowGetters = true)
-public class Role {
+public class Classe {
 	@Id
 	private String id;
 
@@ -25,7 +25,7 @@ public class Role {
 	private Date createdAt;
 	
 	
-	public Role(String id,String nom) {
+	public Classe(String id,String nom) {
 		this.id=id;
 		this.nom=nom;
 		this.createdAt=new Date();
@@ -52,6 +52,6 @@ public class Role {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return String.format("Role[id=%s,nom=%s]", id,nom);
+		return String.format("Classe[id=%s,nom=%s]", id,nom);
 	}
 }

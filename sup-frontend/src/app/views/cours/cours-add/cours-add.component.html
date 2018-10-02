@@ -7,47 +7,49 @@
                   <strong>Ajouter</strong> Cour
                 </div>
                 <div class="card-body">
-                  <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                  <form #courForm="ngForm" (ngSubmit)="createCour(courForm)" class="form-horizontal" novalidate>
                     <div class="form-group row">
                       <label class="col-md-3 col-form-label" for="text-input">Titre</label>
                       <div class="col-md-6">
-                        <input type="text" id="text-input" name="text-input" class="form-control" placeholder="Text">
+                        <input type="text" id="text-input" name="text-input" class="form-control" placeholder="Titre" required
+                        name="titre" [(ngModel)]="newCour.titre" #titre="ngModel">
                         <span class="help-block">Exemple : Math</span>
                       </div>
                     </div>
                     <div class="form-group row">
                       <label class="col-md-3 col-form-label" for="textarea-input">Contenu</label>
                       <div class="col-md-9">
-                        <textarea id="textarea-input" name="textarea-input" rows="9" class="form-control" placeholder="Content.."></textarea>
+                        <textarea id="textarea-input" name="textarea-input" rows="9" class="form-control" placeholder="Content.." required
+                        name="contenu" [(ngModel)]="newCour.contenu" #contenu="ngModel"></textarea>
                       </div>
                     </div>
                     <div class="form-group row">
                       <label class="col-md-3 col-form-label" for="select1">Classe</label>
                       <div class="col-md-3">
-                        <select id="select1" name="select1" class="form-control">
-                          <option value="0">Please select</option>
-                          <option value="1">Option #1</option>
-                          <option value="2">Option #2</option>
-                          <option value="3">Option #3</option>
+                        <select #box id="select1" name="select1" class="form-control" [(ngModel)]="newCour.classes"
+                        (click)="addClasse(box.value)">
+                          <option value="0">Choisir les classes</option>
+                          <option *ngFor="let classe of classes" value="{{classe.id}}">{{classe.nom}}</option>
                         </select>
                       </div>
-                      <div class="col-md-3">
-
+                      <div class="col-md-6">
+                        <button *ngFor="let classe of classesSave" (click)="removeClasse(classe)">{{classe.nom}}</button>
                       </div>
                     </div>
                     <div class="form-group row">
                       <label class="col-md-3 col-form-label">Publié</label>
                       <div class="col-md-9 col-form-label">
                         <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="option1" id="checkbox1">
+                          <input class="form-check-input" type="checkbox" id="visibilite" required
+                          name="visibilite" [(ngModel)]="newCour.visibilite" #visibilite="ngModel">
                         </div>
                       </div>
                     </div>
                   </form>
                 </div>
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
-                  <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+                  <button type="submit" class="btn btn-sm btn-primary"  (click)="createCour(courForm)"><i class="fa fa-dot-circle-o"></i> Submit</button>
+                  <button type="reset" class="btn btn-sm btn-danger" (click)="reset()"><i class="fa fa-ban"></i> Reset</button>
                 </div>
               </div>
               

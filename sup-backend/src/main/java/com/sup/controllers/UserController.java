@@ -3,7 +3,6 @@ package com.sup.controllers;
 import javax.validation.Valid;
 
 import com.sup.models.DataU;
-import com.sup.models.Role;
 import com.sup.models.User;
 import com.sup.services.CourService;
 import com.sup.services.RoleService;
@@ -13,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/users")
@@ -37,10 +34,12 @@ public class UserController {
 
 	@PostMapping("")
 	public User createAccount(@RequestBody DataU dataU) {
-
 		User user=new User(dataU.id,dataU.email,dataU.username, dataU.password)
 				.setRole(roleService.findRole(dataU.role));
-		return userService.createAccount(user);
+		System.out.println("Recherche du role "+roleService.findRole(dataU.role));
+		System.out.println(user.getRole());
+		return user;
+//		return userService.createAccount(user);
 	}
 
 	@PutMapping(value = "/{id}")

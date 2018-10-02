@@ -22,7 +22,7 @@ public class CourServiceImpl implements CourService {
 
 
 	@Override
-	public Cour creerCour(Cour cour) {
+	public Cour createCour(Cour cour) {
 		// TODO Auto-generated method stub
 		return courRepository.save(cour);
 	}
@@ -72,6 +72,16 @@ public class CourServiceImpl implements CourService {
 	public List<Cour> listCoursPublicSort(Sort sortBy) {
 		// TODO Auto-generated method stub
 		return courRepository.findByVisibiliteIsTrue(sortBy);
+	}
+	@Override
+	public List<Cour> listMyCoursSort(User user,Sort sortBy) {
+		
+		return courRepository.findByUser(user, sortBy);
+	}
+	@Override
+	public List<Cour> listMyCoursSuiviSort(User user,Sort sortBy) {
+		
+		return courRepository.findByUsersSuiviId(user.getId(), sortBy);
 	}
 	
 

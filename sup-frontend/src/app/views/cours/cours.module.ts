@@ -7,6 +7,7 @@ import { CoursRoutingModule } from './cours-routing.module';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { CourproviderService } from '../../providers/courprovider.service';
+import { ClasseproviderService } from '../../providers/classeprovider.service';
 
 @NgModule({
   imports: [
@@ -15,7 +16,7 @@ import { CourproviderService } from '../../providers/courprovider.service';
     FormsModule,
     HttpModule,
   ],
-  providers: [CourproviderService],
+  providers: [CourproviderService,ClasseproviderService],
   declarations: [CoursAddComponent, CoursHomeComponent]
 })
 export class CoursModule { }

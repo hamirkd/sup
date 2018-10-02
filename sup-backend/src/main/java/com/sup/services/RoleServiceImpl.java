@@ -36,7 +36,7 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public Role createRole(String nom) {
-		return roleRepository.save(new Role(nom));
+		return roleRepository.save(new Role(null,nom));
 	}
 
 	@Override
@@ -49,9 +49,11 @@ public class RoleServiceImpl implements RoleService {
 	 */
 	@Override
 	public Role findRole(String nom) {
-		Role role= roleRepository.findRoleByNom(nom);
-		if(role!=null)
+		Role role= roleRepository.findByNom(nom);
+		System.out.println(" Le role de l'utilisateur est :  "+role);
+		if(role==null)
 			return role; 
+		System.out.println(" Impossible il n'existe pas ");
 		return createRole(nom);
 	}
 

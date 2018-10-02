@@ -13,7 +13,11 @@ public interface CourService {
 
 	public List<Cour> listCoursPublicSort(Sort sortBy);
 
-	public Cour creerCour(Cour cour);
+	public List<Cour> listMyCoursSort(User user,Sort sortBy);
+	
+	public List<Cour> listMyCoursSuiviSort(User user,Sort sortBy);
+
+	public Cour createCour(Cour cour);
 
 	public Cour modifierCour(String id, Cour cour);
 

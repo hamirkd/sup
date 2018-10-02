@@ -1,22 +1,56 @@
 <div class="animated fadeIn">
+    
     <div class="row">
-      <div class="col-sm-6 col-md-4">
+        <p>Recherche : 
+            <input (keyup)="onKey($event)">
+          </p>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 col-md-4" *ngFor="let cour of cours">
       <div class="card">
         <div class="card-header">
-          Card with label
-          <span class="badge float-right">Success</span>
+          {{cour.titre}}
+          <span class="badge float-right">{{cour.createdAt}}</span>
         </div>
-        <div class="card-body">
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+        <div class="card-body" *ngIf="cour.id!=choixcour.id" [innerHTML]="cour.contenu">
+        </div>
+        <div class="card-body" *ngIf="cour.id==choixcour.id">
+            <div class="form-group row">
+            <textarea id="textarea-input" name="textarea-input" rows="9" class="form-control" placeholder="Content.." required
+            name="contenu" [(ngModel)]="choixcour.contenu" #contenu="ngModel"></textarea>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="select1">Classe</label>
+                <div>
+                  <select #box id="select1" name="select1" class="form-control" [(ngModel)]="cour.classes"
+                  (click)="addClasse(box.value)">
+                    <option value="0">Choisir les classes</option>
+                    <option *ngFor="let classe of classes" value="{{classe.id}}">{{classe.nom}}</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <button *ngFor="let classe of classesSave" (click)="removeClasse(classe)">{{classe.nom}}</button>
+                </div>
+              </div>
         </div>
         <div class="card-footer">
-          <div class="row">
-          <div class="col-md-10">
-              <button class="fa fa-edit btn-primary"></button>
-              <button class="fa fa-remove btn-danger"></button>
+            <div class="row" *ngIf="cour.id!=choixcour.id">
+            <div class="col-md-6">
+                <button class="fa fa-edit btn-primary" (click)="edit(cour)"></button>
+                <button class="fa fa-remove btn-danger" (click)="delete(cour)"></button>
+            </div>
+            <div class="col-md-6">
+                <button class="fa fa-remove btn-danger" *ngIf="cour.visibilite" (click)="publier(cour)">Ne pas publier </button>
+                <button class="fa fa-remove btn-success" *ngIf="!cour.visibilite" (click)="publier(cour)">Publier</button>
+            </div>
+            <div *ngFor="let classe of cour.classes">[{{classe.nom}}]</div>
           </div>
-          <div class="col-md-2">
-              <button class="fa fa-remove btn-danger"></button>
+          <div class="row" *ngIf="cour.id==choixcour.id">
+          <div class="col-md-6">
+              <button class="fa fa-edit btn-primary" (click)="update(cour)">modifier</button>
+          </div>
+          <div class="col-md-6">
+              <button class="fa fa-remove btn-danger" (click)="reset()">quitter</button>
           </div>
         </div>
         </div>

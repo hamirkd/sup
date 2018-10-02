@@ -16,5 +16,7 @@ public interface CourRepository extends MongoRepository<Cour, String> {
 	public List<Cour> findByVisibilite(Boolean visibilite);
 	public List<Cour> findByVisibiliteIsTrue();
 	public List<Cour> findByVisibiliteIsTrue(Sort sort);
+	public List<Cour> findByUser(User user,Sort sort);
+	public List<Cour> findByUsersSuiviId(String id,Sort sort);
 	public List<Cour> findByUser(User user);
 }

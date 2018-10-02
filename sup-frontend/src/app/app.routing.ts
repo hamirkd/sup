@@ -59,6 +59,14 @@ export const routes: Routes = [
         loadChildren: './views/cours/cours.module#CoursModule'
       },
       {
+        path: 'classes',
+        loadChildren: './views/classes/classes.module#ClassesModule'
+      },
+      {
+        path: 'courspublic',
+        loadChildren: './views/courpublic/courpublic.module#CourpublicModule'
+      },
+      {
         path: 'base',
         loadChildren: './views/base/base.module#BaseModule'
       },

@@ -23,7 +23,6 @@ export class UsersHomeComponent implements OnInit {
   ngOnInit() {
     this.sessionprovider.auth();
     this.sessionprovider.redirectIfNotAdmin();
-    console.log(this.sessionprovider.user);
     this.getAllUsers();
   }
   async getAllUsers() {
