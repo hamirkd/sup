@@ -29,7 +29,9 @@ public class User {
 	private String password;
 
 	private Date createdAt;
-
+	
+	@DBRef
+	@Field("role")
 	private Role role;
 
 

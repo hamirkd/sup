@@ -24,7 +24,7 @@ export class SessionproviderService {
       this.router.navigate(['/dashboard'])
     else if (this.user.role.nom == 'teacher')
       this.router.navigate(['/cours'])
-    else this.router.navigate(['/cours/public']);
+    else this.router.navigate(['/courspublic/mycour']);
   }
   redirectIfNotAdmin():void{
     console.log("verification des droits "+this.user);
@@ -58,7 +58,7 @@ export class SessionproviderService {
       this.router.navigate(['/dashboard']);
    else if (this.user.role.nom.includes('teacher'))
       this.router.navigate(['/cours']);
-    else this.router.navigate(['/cours/public']);
+    else this.router.navigate(['/courspublic/mycour']);
   }
 
   deconnexion() {

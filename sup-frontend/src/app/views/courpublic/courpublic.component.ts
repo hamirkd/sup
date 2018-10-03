@@ -36,7 +36,10 @@ export class CourpublicComponent implements OnInit {
     let value = event.target.value.toLocaleLowerCase();
     if (value != "")
       this.cours = this.coursbase.filter
-        (cour => cour.titre.toLocaleLowerCase().includes(value) || cour.classes.find((classe) => classe.nom.toLocaleLowerCase().includes(value)));
+        (cour => cour.titre.toLocaleLowerCase().includes(value) 
+        ||cour.user.username.toLocaleLowerCase().includes(value) 
+        ||cour.user.email.toLocaleLowerCase().includes(value) 
+        || cour.classes.find((classe) => classe.nom.toLocaleLowerCase().includes(value)));
     else this.cours = this.coursbase;
   }
 
@@ -63,6 +66,7 @@ export class CourpublicComponent implements OnInit {
     await this.courprovider.updateCour(cour);
   }
   verificateur(cour:Cour):Boolean{
+    if(cour.usersSuivi==null)return false;
     if(cour.usersSuivi.find((user)=>user.id==this.sessionprovider.user.id))return true;
     return false;
   }

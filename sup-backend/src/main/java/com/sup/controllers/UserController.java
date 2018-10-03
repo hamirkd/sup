@@ -36,10 +36,8 @@ public class UserController {
 	public User createAccount(@RequestBody DataU dataU) {
 		User user=new User(dataU.id,dataU.email,dataU.username, dataU.password)
 				.setRole(roleService.findRole(dataU.role));
-		System.out.println("Recherche du role "+roleService.findRole(dataU.role));
-		System.out.println(user.getRole());
-		return user;
-//		return userService.createAccount(user);
+		
+		return userService.createAccount(user);
 	}
 
 	@PutMapping(value = "/{id}")

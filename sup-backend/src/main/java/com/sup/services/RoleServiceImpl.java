@@ -51,7 +51,7 @@ public class RoleServiceImpl implements RoleService {
 	public Role findRole(String nom) {
 		Role role= roleRepository.findByNom(nom);
 		System.out.println(" Le role de l'utilisateur est :  "+role);
-		if(role==null)
+		if(role!=null)
 			return role; 
 		System.out.println(" Impossible il n'existe pas ");
 		return createRole(nom);
