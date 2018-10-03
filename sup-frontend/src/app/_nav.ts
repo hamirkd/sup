@@ -51,7 +51,7 @@ export const navItems = [
    name: 'Teacher'
  },
  {
-  name: 'Cours',
+  name: 'Cours Professeur',
   url: '/cours',
   icon: 'icon-book',
   children: [
@@ -72,7 +72,7 @@ export const navItems = [
   name: 'Student'
 },
 {
- name: 'Cours Public',
+ name: 'Cours Etudiant',
  url: '/courspublic',
  icon: 'icon-book',
  children: [
@@ -87,5 +87,14 @@ export const navItems = [
      icon: 'icon-list'
    },
  ]
+}, 
+{
+  title: true,
+  name: 'Cours Publiés'
+},
+{
+ name: 'Cours Public',
+ url: '/courspublic',
+ icon: 'icon-book',
 },
 ];

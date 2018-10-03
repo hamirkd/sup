@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { navItems } from './../../_nav';
 import { SessionproviderService } from '../../providers/sessionprovider.service';
 
@@ -7,12 +7,13 @@ import { SessionproviderService } from '../../providers/sessionprovider.service'
   templateUrl: './default-layout.component.html'
 })
 export class DefaultLayoutComponent {
+ 
   public navItems = navItems;
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement = document.body;
   constructor(private sessionprovider:SessionproviderService) {
-
+    this.navItems=this.sessionprovider.navI;
     this.changes = new MutationObserver((mutations) => {
       this.sidebarMinimized = document.body.classList.contains('sidebar-minimized');
     });

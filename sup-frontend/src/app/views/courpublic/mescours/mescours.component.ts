@@ -12,6 +12,8 @@ import { SessionproviderService } from '../../../providers/sessionprovider.servi
 export class MescoursComponent implements OnInit {
 
   cours: Cour[] = [];
+  choixcour:Cour=new Cour();
+  cour:Cour;
   coursbase: Cour[] = [];
   constructor(private courprovider: CourproviderService, private router: Router,
     private sessionprovider: SessionproviderService) { }
@@ -49,6 +51,14 @@ export class MescoursComponent implements OnInit {
       }
     }
   }
+  converterOne(cour: Cour) {
+      while (cour.contenu != cour.contenu.replace('\n', '<br>')) {
+        cour.contenu = cour.contenu.replace('\n', '<br>');
+      }
+      while (cour.contenu != cour.contenu.replace('    ', '&nbsp;&nbsp;&nbsp;&nbsp;')) {
+        cour.contenu = cour.contenu.replace('    ', '&nbsp;&nbsp;&nbsp;&nbsp;');
+      }
+  }
   async suivre(cour: Cour) {
     console.log(cour);
     if(cour.usersSuivi==null){
@@ -63,4 +73,18 @@ export class MescoursComponent implements OnInit {
       this.getAllCoursSuivi();
     });
   }
+   suivreetudiant(cour: Cour) {
+     if(this.choixcour.id==cour.id){
+       this.choixcour=new Cour();
+       return;
+     }
+     this.choixcour=cour;
+     this.courprovider.getCoursById(cour).then((cour)=>{
+       this.choixcour=cour;
+     });
+  }
+  reset(){
+    this.choixcour=new Cour();
+  }
+
 }

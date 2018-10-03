@@ -47,14 +47,9 @@ public class CourController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public Cour getCourById(@PathVariable("id") String id) {
-		return courService.rechercherCourId(id);
+	public Cour getCourById(@PathVariable("id") Cour cour) {
+		return cour;
 	}
-//
-//	@GetMapping(value = "/login/{login}")
-//	public List<Cour> getCourByLogin(@PathVariable("login") String login) {
-//		return userService.getUserByLogin(login).getCours();
-//	}
 
 	@PutMapping(value = "/{id}")
 	public Cour updateCour(@PathVariable("id") String id, @Valid @RequestBody Cour cour) {

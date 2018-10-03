@@ -14,18 +14,50 @@
                 <th>E-mail</th>
                 <th>Role</th>
                 <th>Date</th>
-                <th>Action</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let user of users">
-                <td>{{user.id}}</td>
-                <td>{{user.username}}</td>
-                  <td>{{user.email}}</td>
-                  <td>{{user.role.nom}}</td>
-                  <td>{{user.createdAt}}</td>
-                  <td><button class="btn btn-primary"  (click)="edit(user)"><i class="fa fa-edit"></i></button>
-                    <button class="btn btn-danger" (click)="delete(user)"><i class="fa fa-remove"></i> </button></td>
+              <tr *ngFor="let user of users; let i=index">
+                <td>{{i+1}}</td>
+                <td *ngIf="user.id!=choixuser.id">{{user.username}}</td>
+                <td *ngIf="user.id!=choixuser.id">{{user.email}}</td>
+                <td *ngIf="user.id!=choixuser.id">{{user.role.nom}}</td>
+                <td *ngIf="user.id!=choixuser.id">{{user.createdAt}}</td>
+                <td *ngIf="user.id!=choixuser.id&&user.id!=u.id" class="text-right">
+                  <button class="btn btn-primary" (click)="edit(user)" title="Modifier"><i class="fa fa-edit"></i></button>
+                  <button class="btn btn-danger" (click)="delete(user)" title="Supprimer"><i class="fa fa-remove"></i>
+                  </button>
+                  <button class="btn mb1 black bg-yellow" (click)="reinit(user)" title="Reinitialiser"><i class="fa fa-key"></i>
+                  </button>
+                </td>
+                <td *ngIf="user.id==u.id" class="text-right">
+                    <button class="btn btn-danger" (click)="delete(user)" title="Supprimer">oui</button>
+                      <button class="btn btn-default" (click)="reset()" title="Modifier">non</button>
+                </td>
+                <td *ngIf="user.id==choixuser.id">
+                  <input type="text" name="username" id="username" class="form-control" [(ngModel)]="user.username"
+                  #username="ngModel">
+                </td>
+                <td *ngIf="user.id==choixuser.id">
+                  <input type="email" name="email" id="email" class="form-control" [(ngModel)]="user.email"
+                  #email="ngModel">
+                </td>
+                <td *ngIf="user.id==choixuser.id&&user.role.nom!='admin'">
+                  <select name="profil" id="profil" class="form-control" required name="role" [(ngModel)]="user.role.nom"
+                    #role="ngModel">
+                    <option value="teacher">Teacher</option>
+                    <option value="student">Student</option>
+                  </select>
+                </td>
+                <td *ngIf="user.id==choixuser.id&&user.role.nom!='admin'" colspan="2" class="text-right">
+                    <button class="btn btn-success" (click)="update(user)" title="valider"><i class="fa fa-check"></i></button>
+                    <button class="btn btn-default" (click)="reset()" title="quitter"><i class="fa fa-close"></i></button>
+                </td>
+                <td *ngIf="user.id==choixuser.id&&user.role.nom=='admin'" colspan="3" class="text-right">
+                    <button class="btn btn-success" (click)="update(user)" title="valider"><i class="fa fa-check"></i></button>
+                    <button class="btn btn-default" (click)="reset()" title="quitter"><i class="fa fa-close"></i></button>
+                </td>
               </tr>
             </tbody>
           </table>

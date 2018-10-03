@@ -11,13 +11,13 @@ const routes: Routes = [
         title: 'Les cours publiés'
         }
     },
-{
-    path: 'mycour',
-    component:MescoursComponent,
-    data: {
-    title: 'Mes cours'
-    }
-  }
+    {
+        path: 'mycour',
+        component:MescoursComponent,
+        data: {
+        title: 'Mes cours'
+        }
+      },
 ];
 
 @NgModule({

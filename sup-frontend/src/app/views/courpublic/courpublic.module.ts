@@ -14,6 +14,6 @@ import { HttpModule } from '@angular/http';
     HttpModule,
   ],
   providers: [CourpublicComponent],
-  declarations: [CourpublicComponent, MescoursComponent]
+  declarations: [CourpublicComponent, MescoursComponent,]
 })
 export class CourpublicModule { }

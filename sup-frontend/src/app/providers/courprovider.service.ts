@@ -65,6 +65,13 @@ export class CourproviderService {
     .then(response => response.json() as Cour[])
     .catch(this.handleError);
   }
+
+  getCoursById(cour:Cour):Promise<Cour>{
+    return this.http.get(this.baseUrl+'/api/cours/'+cour.id)
+    .toPromise()
+    .then(response => response.json() as Cour)
+    .catch(this.handleError);
+  }
   
   private handleError(error: any): Promise<any> {
     console.error('Some error occured', error);

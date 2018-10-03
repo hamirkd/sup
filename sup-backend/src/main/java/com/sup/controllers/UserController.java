@@ -9,6 +9,7 @@ import com.sup.services.RoleService;
 import com.sup.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,9 +28,14 @@ public class UserController {
 	RoleService roleService;
 
 	@GetMapping("")
-	public List<User> getAllUsers() {
+	public Page<User> getAllUsers() {
 		Sort sortBy = new Sort(Sort.Direction.ASC, "createdAt");
-		return userService.listeDesUtilisateurs(sortBy);
+		return userService.getAllUsers(sortBy,0);
+	}
+	@GetMapping("/page/{page}")
+	public Page<User> getAllUsers(@PathVariable("page")int page) {
+		Sort sortBy = new Sort(Sort.Direction.ASC, "createdAt");
+		return userService.getAllUsers(sortBy,page);
 	}
 
 	@PostMapping("")
@@ -66,13 +72,13 @@ public class UserController {
 	}
 
 	@GetMapping("/sort/{column}/{order}")
-	public List<User> getAllUsersSort(@PathVariable("column") String column, @PathVariable("order") boolean order) {
+	public Page<User> getAllUsersSort(@PathVariable("column") String column, @PathVariable("order") boolean order) {
 		Sort sortBy;
 		if (order)
 			sortBy = new Sort(Sort.Direction.ASC, column);
 		else
 			sortBy = new Sort(Sort.Direction.DESC, column);
-		return userService.listeDesUtilisateurs(sortBy);
+		return userService.getAllUsers(sortBy,0);
 	}
     
 }

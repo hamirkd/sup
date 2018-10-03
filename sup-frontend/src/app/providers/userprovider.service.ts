@@ -4,6 +4,7 @@ import { Headers, Http } from '@angular/http';
 import { SessionproviderService } from './sessionprovider.service';
 import { User } from '../models/user.model';
 import { DataU } from '../models/datau.model';
+import { Page } from '../models/page.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,10 +14,10 @@ export class UserproviderService {
 
   constructor(private http: Http,private sessionprovider:SessionproviderService) { }
 
-  getAllUsers(): Promise<User[]>{
+  getAllUsers(): Promise<(Page<User>)>{
     return this.http.get(this.baseUrl+'/api/users/')
     .toPromise()
-    .then(response=>response.json() as User[])
+    .then(response=>response.json() as Page<User>)
     .catch(this.handleError);
   }
 

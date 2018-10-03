@@ -2,6 +2,7 @@ package com.sup.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
 import com.sup.models.Cour;
@@ -10,7 +11,7 @@ import com.sup.models.User;
 
 public interface UserService {
 
-	public List<User> listeDesUtilisateurs(Sort sortBy);
+	public Page<User> getAllUsers(Sort sortBy,int page);
 
 	public User authentification(String id,String login,String password);
 	
