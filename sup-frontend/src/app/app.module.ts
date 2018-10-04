@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { AlertsModule } from 'angular-alert-module';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
@@ -58,7 +59,7 @@ import { FormsModule } from '@angular/forms';
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    ChartsModule,HttpModule
+    ChartsModule,HttpModule,AlertsModule.forRoot()
   ],
   declarations: [
     AppComponent,

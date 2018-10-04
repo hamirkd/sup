@@ -91,6 +91,8 @@ export class SessionproviderService {
       this.navI.push(navItems.find((n)=>n.name.toLocaleLowerCase().includes("admin")));
       this.navI.push(navItems.find((n)=>n.name.toLocaleLowerCase().includes("users")));
       this.navI.push(navItems.find((n)=>n.name.toLocaleLowerCase().includes("classe")));
+      this.navI.push(navItems.find((n)=>n.name.toLocaleLowerCase().includes("profil")));
+      this.navI.push(navItems.find((n)=>n.name.toLocaleLowerCase().includes("modify profil")));
     }
     if (this.user.role.nom.includes("teacher")) {
       this.navI.push(navItems.find((n)=>n.name.toLocaleLowerCase().includes("teacher")));

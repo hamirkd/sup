@@ -8,6 +8,7 @@ import { UsersAddComponent } from './users-add/users-add.component';
 import { UsersHomeComponent } from './users-home/users-home.component';
 import { UsersRoutingModule } from './users-routing.module';
 import { UserproviderService } from '../../providers/userprovider.service';
+import { UsersUpdateComponent } from './users-update/users-update.component';
 
 @NgModule({
   imports: [
@@ -17,6 +18,6 @@ import { UserproviderService } from '../../providers/userprovider.service';
     HttpModule,
   ],
   providers: [UserproviderService],
-  declarations: [UsersAddComponent, UsersHomeComponent]
+  declarations: [UsersAddComponent, UsersHomeComponent, UsersUpdateComponent]
 })
 export class UsersModule { }

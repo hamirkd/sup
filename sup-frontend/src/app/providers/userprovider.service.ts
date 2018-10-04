@@ -21,6 +21,13 @@ export class UserproviderService {
     .catch(this.handleError);
   }
 
+  getAllUsersPages(pagenumber:number): Promise<(Page<User>)>{
+    return this.http.get(this.baseUrl+'/api/users/page/'+pagenumber)
+    .toPromise()
+    .then(response=>response.json() as Page<User>)
+    .catch(this.handleError);
+  }
+
   createUser(userData:DataU):Promise<User>{
     return this.http.post(this.baseUrl+'/api/users',userData)
     .toPromise()
@@ -34,22 +41,25 @@ export class UserproviderService {
     .then(response => response.json() as User)
     .catch(this.handleError);
   }
-
   loginUser(userData:DataU):Promise<User>{
-    console.log(userData);
     return this.http.post(this.baseUrl+'/api/users/login',userData)
     .toPromise()
     .then(response => response.json() as User)
     .catch(this.handleError);
   }
 
-  async updateUserInfo(user:DataU){
-    await this.loginUser(user).then((user)=>{
-      console.clear();
+  async updateUserInfo(user:User){
+    await this.getUserById(user).then((user)=>{
      localStorage.setItem('user',JSON.stringify(user));
     }).catch(()=>{
       
     });
+  }
+
+  getUserById(user:User){
+    return this.http.get(this.baseUrl+"/api/users/"+user.id).toPromise()
+    .then(response=>response.json() as User).
+    catch(this.handleError);
   }
   
   deleteUser(id: string):Promise<any>{

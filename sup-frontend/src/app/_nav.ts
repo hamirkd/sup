@@ -97,4 +97,13 @@ export const navItems = [
  url: '/courspublic',
  icon: 'icon-book',
 },
+{
+  title: true,
+  name: 'Profil'
+},
+{
+ name: 'Modify Profil ',
+ url: '/users/modify',
+ icon: 'icon-user',
+},
 ];

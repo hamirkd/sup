@@ -3,6 +3,7 @@ package com.sup.controllers;
 import javax.validation.Valid;
 
 import com.sup.models.DataU;
+import com.sup.models.Role;
 import com.sup.models.User;
 import com.sup.services.CourService;
 import com.sup.services.RoleService;
@@ -12,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -42,7 +41,6 @@ public class UserController {
 	public User createAccount(@RequestBody DataU dataU) {
 		User user=new User(dataU.id,dataU.email,dataU.username, dataU.password)
 				.setRole(roleService.findRole(dataU.role));
-		
 		return userService.createAccount(user);
 	}
 
@@ -51,24 +49,21 @@ public class UserController {
 		user.setRole(roleService.findRole(user.getRole().getNom()));
 		return userService.modifyUser(id, user);
 	}
+	@GetMapping(value = "/{user}")
+	public User getUserById(@PathVariable("user") User user) {
+		return user;
+	}
 
 	@PostMapping("/login")
 	public User authentification(@Valid @RequestBody DataU user) {
-		
-		System.out.println(user.email);
 		User usero = userService.authentification(user.id, user.email, user.password);
-		if (usero != null)
-			System.out.println(usero);
-		System.out.println(usero);
-		
 		return usero;
 	}
 	
 
 	@DeleteMapping(value = "/{id}")
 	public boolean deleteUser(@PathVariable("id") String id) {
-		return courService.deleteAllCoursOfUser(userService.getUserById(id))&&userService.deleteUser(id);
-		
+		return courService.deleteAllCoursOfUser(userService.getUserById(id))&&userService.deleteUser(id);	
 	}
 
 	@GetMapping("/sort/{column}/{order}")

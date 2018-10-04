@@ -19,7 +19,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let user of users; let i=index">
-                <td>{{i+1}}</td>
+                <td>{{usersinpage.number*5+1+i}}</td>
                 <td *ngIf="user.id!=choixuser.id">{{user.username}}</td>
                 <td *ngIf="user.id!=choixuser.id">{{user.email}}</td>
                 <td *ngIf="user.id!=choixuser.id">{{user.role.nom}}</td>
@@ -63,14 +63,14 @@
           </table>
           <nav>
             <ul class="pagination">
-              <li class="page-item"><a class="page-link">Prev</a></li>
-              <li class="page-item active">
-                <a class="page-link">1</a>
-              </li>
-              <li class="page-item"><a class="page-link">2</a></li>
-              <li class="page-item"><a class="page-link">3</a></li>
-              <li class="page-item"><a class="page-link">4</a></li>
-              <li class="page-item"><a class="page-link">Next</a></li>
+              <li class="page-item"[class.disabled]="usersinpage.first" >
+                <a class="page-link" (click)="getAllUsersPages(usersinpage.number-1)"
+                >Prev</a></li>
+              <li *ngFor="let i of pages" 
+              class="{{i==usersinpage.number? 'page-item active':'page-item'}}">
+              <a class="page-link" (click)="getAllUsersPages(i)">{{i+1}}</a></li>
+              <li class="page-item" [class.disabled]="usersinpage.last">
+                <a class="page-link"(click)="getAllUsersPages(usersinpage.number+1)">Next</a></li>
             </ul>
           </nav>
           <button class="btn btn-success" [routerLink]="['/users/add']"><i class="fa fa-plus"></i></button>
