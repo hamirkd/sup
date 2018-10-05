@@ -30,8 +30,8 @@ public class UserController {
 
 	@GetMapping("")
 	public List<User> getAllUsers() {
-		Sort sortBy = new Sort(Sort.Direction.ASC, "createdAt");
-		return userService.getAllUsers(sortBy,0).getContent();
+		Sort sortBy = new Sort(Sort.Direction.ASC, "username");
+		return userService.getAllUsers(sortBy);
 	}
 	@GetMapping("/page/{page}")
 	public Page<User> getAllUsers(@PathVariable("page")int page) {

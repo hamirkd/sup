@@ -39,6 +39,10 @@ public class UserServiceImpl implements UserService {
 		final Pageable pageableRequest = new PageRequest(page, 5);
 		return userRepository.findAll(pageableRequest);
 	}
+	@Override
+	public List<User> getAllUsers(Sort sortBy) {
+		return userRepository.findAll(sortBy);
+	}
 
 	@Override
 	public User createAccount(User user) {

@@ -12,6 +12,8 @@ import com.sup.models.User;
 public interface UserService {
 
 	public Page<User> getAllUsers(Sort sortBy,int page);
+	
+	public List<User> getAllUsers(Sort sortBy);
 
 	public User authentification(String id,String login,String password);
 	

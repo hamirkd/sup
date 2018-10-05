@@ -27,6 +27,11 @@ export const navItems = [
        url: '/users',
        icon: 'icon-list'
      },
+     {
+       name: 'Donner des roles temporaires',
+       url: '/users/roletemp',
+       icon: 'icon-key'
+     },
    ]
  },
  {

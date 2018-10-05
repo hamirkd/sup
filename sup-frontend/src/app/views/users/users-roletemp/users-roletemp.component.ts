@@ -94,6 +94,7 @@ export class UsersRoletempComponent implements OnInit {
     this.saveRoleTemp.splice(this.saveRoleTemp.findIndex((ro)=>ro.id==role.id),1);
   }
   async update(userForm: NgForm) {
+    if(this.choixuser.id=="")return;
     await this.userprovider.getUserById(this.choixuser).then((user)=>{
       console.log(user);
       if(user!=null){
