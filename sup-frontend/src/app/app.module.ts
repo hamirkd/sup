@@ -59,7 +59,7 @@ import { FormsModule } from '@angular/forms';
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    ChartsModule,HttpModule,AlertsModule.forRoot()
+    ChartsModule,HttpModule,AlertsModule.forRoot(),
   ],
   declarations: [
     AppComponent,

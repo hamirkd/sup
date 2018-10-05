@@ -14,10 +14,10 @@ export class UserproviderService {
 
   constructor(private http: Http,private sessionprovider:SessionproviderService) { }
 
-  getAllUsers(): Promise<(Page<User>)>{
+  getAllUsers(): Promise<User[]>{
     return this.http.get(this.baseUrl+'/api/users/')
     .toPromise()
-    .then(response=>response.json() as Page<User>)
+    .then(response=>response.json() as User[])
     .catch(this.handleError);
   }
 

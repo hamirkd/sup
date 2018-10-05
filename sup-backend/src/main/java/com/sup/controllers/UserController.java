@@ -1,5 +1,7 @@
 package com.sup.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import com.sup.models.DataU;
@@ -27,9 +29,9 @@ public class UserController {
 	RoleService roleService;
 
 	@GetMapping("")
-	public Page<User> getAllUsers() {
+	public List<User> getAllUsers() {
 		Sort sortBy = new Sort(Sort.Direction.ASC, "createdAt");
-		return userService.getAllUsers(sortBy,0);
+		return userService.getAllUsers(sortBy,0).getContent();
 	}
 	@GetMapping("/page/{page}")
 	public Page<User> getAllUsers(@PathVariable("page")int page) {

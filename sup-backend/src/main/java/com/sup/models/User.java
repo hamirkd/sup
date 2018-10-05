@@ -1,6 +1,7 @@
 package com.sup.models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -33,8 +34,9 @@ public class User {
 	@DBRef
 	@Field("role")
 	private Role role;
-
-
+	
+	private List<RoleTemp>rolesTemp;
+	
 	public User(String id, String email,String username, String password) {
 		this.id = id;
 		this.email = email;
@@ -70,15 +72,20 @@ public class User {
 		this.password=user.password;
 		if(user.role!=null)
 		this.role=user.role;
+		this.rolesTemp=user.rolesTemp;
 	}
 	public Role getRole() {
 		return role;
+	}
+	public List<RoleTemp> getRolesTemp() {
+		return rolesTemp;
 	}
 	
 	public User setRole(Role role) {
 		this.role=role;
 		return this;
 	}
+	
 	@Override
 	public String toString() {
 		return String.format("User[login:%s]", email);

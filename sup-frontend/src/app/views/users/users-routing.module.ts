@@ -4,6 +4,7 @@ import { UsersAddComponent } from './users-add/users-add.component';
 import { UsersHomeComponent } from './users-home/users-home.component';
 import { UserproviderService } from '../../providers/userprovider.service';
 import { UsersUpdateComponent } from './users-update/users-update.component';
+import { UsersRoletempComponent } from './users-roletemp/users-roletemp.component';
 
 
 const routes: Routes = [
@@ -26,6 +27,13 @@ const routes: Routes = [
     component: UsersUpdateComponent,
     data: {
       title: 'Modify User'
+    }
+  },
+  {
+    path: 'roletemp',
+    component: UsersRoletempComponent,
+    data: {
+      title: 'Ajouter un role temporaire'
     }
   }
 ];

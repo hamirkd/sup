@@ -29,18 +29,7 @@ export class UsersHomeComponent implements OnInit {
   ngOnInit() {
     this.sessionprovider.auth();
     this.sessionprovider.redirectIfNotAdmin();
-    this.getAllUsers();
-  }
-  async getAllUsers() {
-    this.users = new Array<User>();
-    await this.userprovider.getAllUsers().then((users)=>{
-      if(users!=null)
-      this.usersinpage=users;
-      console.log(this.usersinpage);
-    });
-    this.users=this.usersinpage.content;
-    this.usersbase = this.users;
-    console.log("Les utilisateurs de la plateforme",this.users);this.pagesf();
+    this.getAllUsersPages(this.usersinpage.number);
   }
   
   async getAllUsersPages(pagenumber:number) {
@@ -60,7 +49,7 @@ export class UsersHomeComponent implements OnInit {
       this.reset();
     this.u=user;return;}
     await this.userprovider.deleteUser(user.id).then(()=>{
-      this.getAllUsers();
+      this.getAllUsersPages(this.usersinpage.number);
     })
     .catch((err)=>{
       this.message=err;
@@ -74,7 +63,7 @@ export class UsersHomeComponent implements OnInit {
   }
   async update(user:User){
     await this.userprovider.updateUser(user).then(()=>{
-      this.getAllUsers();
+      this.getAllUsersPages(this.usersinpage.number);
     })
     .catch((err)=>{
       this.message=err;
