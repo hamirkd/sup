@@ -35,7 +35,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="icon-people"></i></span>
                   </div>
-                  <input name="profil" id="profil"  class="form-control" disabled [(ngModel)]="newUser.role.nom">
+                  <input name="profil" id="profil"  class="form-control" disabled *ngIf="newUser.role!=null" [(ngModel)]="newUser.role.nom">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">

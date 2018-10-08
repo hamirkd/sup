@@ -23,8 +23,7 @@ export class UsersAddComponent implements OnInit {
 
   ngOnInit() {
     this.sessionprovider.auth();
-    if(this.sessionprovider.user.role.nom!='admin')
-    this.router.navigate(['/cours']);
+    this.sessionprovider.redirectIfNotAdmin();
   }
 
   createUser(userForm: NgForm) {

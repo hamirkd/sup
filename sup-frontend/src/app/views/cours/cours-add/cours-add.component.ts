@@ -23,11 +23,9 @@ export class CoursAddComponent implements OnInit {
 
   ngOnInit() {
     this.sessionprovider.auth();
-    if(this.sessionprovider.user.role.nom!='teacher')
-    this.router.navigate(['/dashboard']);
+    if(this.sessionprovider.redirectIfNotTeacher()){
     this.getClasse();
-    this.reset();
-   // this.router.navigate(['/cours/public']);
+    this.reset();}
   }
  async getClasse(){
     await this.classeprovider.getAllClasses().then((classes)=>{

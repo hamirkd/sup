@@ -19,8 +19,7 @@ export class ClassesAddComponent implements OnInit {
 
   ngOnInit() {
     this.sessionprovider.auth();
-    if(this.sessionprovider.user.role.nom!='admin')
-    this.router.navigate(['/dashboard']);
+    this.sessionprovider.redirectIfNotAdmin();
   }
   createClasse(classeForm: NgForm) {
     

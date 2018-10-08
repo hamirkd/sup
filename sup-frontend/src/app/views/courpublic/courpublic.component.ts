@@ -58,8 +58,8 @@ export class CourpublicComponent implements OnInit {
     if(cour.usersSuivi==null){
       cour.usersSuivi=[];
     }
-    if(cour.usersSuivi.find((us)=>us.id==this.sessionprovider.user.id)){
-      cour.usersSuivi.splice(cour.usersSuivi.findIndex((user)=>user.id==this.sessionprovider.user.id),1);
+    if(cour.usersSuivi.find((us)=>us!=null&&us.id==this.sessionprovider.user.id)){
+      cour.usersSuivi.splice(cour.usersSuivi.findIndex((user)=>user!=null&&user.id==this.sessionprovider.user.id),1);
     }
     else
       cour.usersSuivi.push(this.sessionprovider.user);
@@ -67,7 +67,7 @@ export class CourpublicComponent implements OnInit {
   }
   verificateur(cour:Cour):Boolean{
     if(cour.usersSuivi==null)return false;
-    if(cour.usersSuivi.find((user)=>user.id==this.sessionprovider.user.id))return true;
+    if(cour.usersSuivi.find((user)=>user!=null&&user.id==this.sessionprovider.user.id))return true;
     return false;
   }
 }

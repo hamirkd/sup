@@ -24,46 +24,63 @@ export class SessionproviderService {
   }
 
   redirectIfLogin() {
-    if (this.user != null && this.user.role != null)
-      if (this.user.role.nom == 'admin')
-        this.router.navigate(['/users'])
-      else if (this.user.role.nom == 'teacher')
-        this.router.navigate(['/cours'])
-      else this.router.navigate(['/courspublic/mycour']);
+    if (this.getdroit('admin'))
+      this.router.navigate(['/users'])
+    else if (this.getdroit('teacher'))
+      this.router.navigate(['/cours'])
+    else this.router.navigate(['/courspublic/mycour']);
   }
-  redirectIfNotAdmin(): void {
-    if (this.user.role.nom.includes('admin'))
-      return;
-    else if (this.user.role.nom.includes('teacher'))
-      this.router.navigate(['/'])
-    else this.router.navigate(['/']);
+  redirectIfNotAdmin(): Boolean {
+    if (this.getdroit('admin') || this.getDroitTemporaire('admin'))
+      return true;
+    this.router.navigate(['/']);
+    return false;
   }
-  redirectIfNotTeacher(): void {
-    if (this.user.role.nom.includes('teacher'))
-      return;
-    else this.router.navigate(['/']);
+  redirectIfNotTeacher(): Boolean {
+    if (this.getdroit('teacher') || this.getDroitTemporaire('teacher'))
+      return true;
+    this.router.navigate(['/']);
+    return false;
   }
-  redirectIfNotStudent(): void {
-    if (this.user.role.nom.includes('student'))
-      return;
-    else this.router.navigate(['/']);
+  redirectIfNotStudent(): Boolean {
+    if (this.getdroit('student') || this.getDroitTemporaire('student'))
+      return true;
+    this.router.navigate(['/']);
+    return false;
   }
   ifNotStudent(): boolean {
-    if (this.user != null && this.user.role != null)
-      if (this.user.role.nom.includes('student'))
-        return true;
-      else return false;
+    if (this.getdroit('student') || this.getDroitTemporaire('student'))
+      return true;
+    else return false;
   }
 
   redirectAfterLogin() {
-    this.auth().then(()=>{
-      if (this.user.role.nom.includes('admin'))
-      this.router.navigate(['/users']);
-    else if (this.user.role.nom.includes('teacher'))
-      this.router.navigate(['/cours']);
-    else this.router.navigate(['/courspublic/mycour']);
+    this.auth().then(() => {
+      if (this.getdroit('admin'))
+        this.router.navigate(['/users']);
+      else if (this.getdroit('teacher'))
+        this.router.navigate(['/cours']);
+      else this.router.navigate(['/courspublic/mycour']);
     });
-    
+  }
+
+  private getDroitTemporaire(nom: string): Boolean {
+    let today: Date = new Date();
+
+    if (this.user == null || this.user.rolesTemp == null) return false;
+    if (this.user.rolesTemp.find((rt) =>
+      rt.nom.toLocaleLowerCase().includes(nom.toLowerCase()) && new Date(rt.debut) <= today && today <= new Date(rt.fin))) {
+      console.log("Droit temporaire accorder pour ", nom);
+      return true;
+    }
+    console.log("Droit temporaire indisponible pour ", nom)
+    return false;
+  }
+  private getdroit(nom: string): Boolean {
+    if (this.user == null) return false;
+    if (this.user.role == null) return false;
+    if (this.user.role.nom.toLocaleLowerCase().includes(nom.toLocaleLowerCase())) return true;
+    return false;
   }
 
   deconnexion() {
@@ -85,25 +102,24 @@ export class SessionproviderService {
   }
   async verifyMenuShow() {
     if (this.v) return;
-    this.navI=[];
-    if (this.user == null) return;
-    if (this.user.role.nom.includes("admin")) {
-      this.navI.push(navItems.find((n)=>n.name.toLocaleLowerCase().includes("admin")));
-      this.navI.push(navItems.find((n)=>n.name.toLocaleLowerCase().includes("users")));
-      this.navI.push(navItems.find((n)=>n.name.toLocaleLowerCase().includes("classe")));
-      this.navI.push(navItems.find((n)=>n.name.toLocaleLowerCase().includes("profil")));
-      this.navI.push(navItems.find((n)=>n.name.toLocaleLowerCase().includes("modify profil")));
+    this.navI = [];
+    if (this.getdroit('admin') || this.getDroitTemporaire('admin')) {
+      this.navI.push(navItems.find((n) => n.name.toLocaleLowerCase().includes("admin")));
+      this.navI.push(navItems.find((n) => n.name.toLocaleLowerCase().includes("users")));
+      this.navI.push(navItems.find((n) => n.name.toLocaleLowerCase().includes("classe")));
+      this.navI.push(navItems.find((n) => n.name.toLocaleLowerCase().includes("profil")));
+      this.navI.push(navItems.find((n) => n.name.toLocaleLowerCase().includes("modify profil")));
     }
-    if (this.user.role.nom.includes("teacher")) {
-      this.navI.push(navItems.find((n)=>n.name.toLocaleLowerCase().includes("teacher")));
-      this.navI.push(navItems.find((n)=>n.name.toLocaleLowerCase().includes("cours professeur")));
-      this.navI.push(navItems.find((n)=>n.name.toLocaleLowerCase().includes("cours public")));
+    if (this.getdroit('teacher') || this.getDroitTemporaire('teacher')) {
+      this.navI.push(navItems.find((n) => n.name.toLocaleLowerCase().includes("teacher")));
+      this.navI.push(navItems.find((n) => n.name.toLocaleLowerCase().includes("cours professeur")));
+      this.navI.push(navItems.find((n) => n.name.toLocaleLowerCase().includes("cours public")));
     }
-    if (this.user.role.nom.includes("student")) {
-      this.navI.push(navItems.find((n)=>n.name.toLocaleLowerCase().includes("student")));
-      this.navI.push(navItems.find((n)=>n.name.toLocaleLowerCase().includes("cours etudiant")));
+    if (this.getdroit('student') || this.getDroitTemporaire('student')) {
+      this.navI.push(navItems.find((n) => n.name.toLocaleLowerCase().includes("student")));
+      this.navI.push(navItems.find((n) => n.name.toLocaleLowerCase().includes("cours etudiant")));
+    }
+    this.v = true;
   }
-  this.v = true;
-}
 
 }

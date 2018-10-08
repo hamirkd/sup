@@ -28,7 +28,7 @@ export class UsersHomeComponent implements OnInit {
 
   ngOnInit() {
     this.sessionprovider.auth();
-    this.sessionprovider.redirectIfNotAdmin();
+    if(this.sessionprovider.redirectIfNotAdmin())
     this.getAllUsersPages(this.usersinpage.number);
   }
   
@@ -84,20 +84,22 @@ export class UsersHomeComponent implements OnInit {
       n.push(i);
     }
     else if(number>3&&this.usersinpage.totalPages>6)
-    for(let i=number-3;i<this.usersinpage.totalPages;i++){
+    for(let i=this.usersinpage.totalPages-6;i<this.usersinpage.totalPages;i++){
       n.push(i);
     }
-    else if(number<3&&this.usersinpage.totalPages>6)
-    for(let i=1+number;i<=6;i++)
-    n.push(i);
-    else if(number>3&&number<=this.usersinpage.totalPages){
-      for(let i=number-3;i<=number+3;i++){
+    else if(number<3&&this.usersinpage.totalPages>6){
+    for(let i=0;i<6;i++)
+    n.push(i);}
+    else if(number>=3&&number-3<=this.usersinpage.totalPages){
+      console.log("nous sommes ici number>3&&number<=this.usersinpage.totalPages");
+      for(let i=number-2;i<=number+3;i++){
         n.push(i);
       }
     }
-    else 
+    else {
+      console.log("nous sommes ici else");
     for(let i=number-3;i<=this.usersinpage.totalPages;i++)
-    n.push(i);
+    n.push(i);}
     this.pages=n;
   }
 

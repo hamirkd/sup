@@ -21,8 +21,7 @@ export class ClassesHomeComponent implements OnInit {
 
   ngOnInit() {
     this.sessionprovider.auth();
-    if(this.sessionprovider.user.role.nom!='admin')
-    this.router.navigate(['/dashboard']);
+    if(this.sessionprovider.redirectIfNotAdmin())
     this.getAllClasses();
   }
   async getAllClasses(){
