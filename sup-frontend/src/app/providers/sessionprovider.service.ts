@@ -12,6 +12,7 @@ export class SessionproviderService {
   datau: DataU;
   public navI = navItems;
   v = false;
+  bienvenu=false;
   constructor(private router: Router) {
     this.user = JSON.parse(localStorage.getItem('user'));
     this.verifyMenuShow();
@@ -55,6 +56,7 @@ export class SessionproviderService {
   }
 
   redirectAfterLogin() {
+    this.bienvenu=true;
     this.auth().then(() => {
       if (this.getdroit('admin'))
         this.router.navigate(['/users']);

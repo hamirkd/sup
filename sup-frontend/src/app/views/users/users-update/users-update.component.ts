@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { SessionproviderService } from '../../../providers/sessionprovider.service';
 import { UserproviderService } from '../../../providers/userprovider.service';
+import { MessageproviderService } from '../../../providers/messageprovider.service';
 import { Router } from '@angular/router';
 import { DataU } from '../../../models/datau.model';
 import { User } from '../../../models/user.model';
@@ -19,7 +20,7 @@ export class UsersUpdateComponent implements OnInit {
   updatemotdepasse = false;
 
   constructor(private userprovider: UserproviderService, private router: Router,
-    private sessionprovider: SessionproviderService) {
+    private sessionprovider: SessionproviderService,private messageprovider:MessageproviderService) {
   }
 
   ngOnInit() {
@@ -33,10 +34,14 @@ export class UsersUpdateComponent implements OnInit {
       this.message = "mot de passe non identique";
       console.log("mot de passe 1 ", userForm.value['password1']);
       console.log("mot de passe 2 ", userForm.value['password2']);
+      this.messageprovider.
+      showWarning("Les deux mots de passe ne sont pas identique","Modification de profi");
+
       return;
     }
     if (userForm.value['password'] == "" || userForm.value['password'] == null) {
-      this.message = "Veuillez confirmer votre mot de passe"; return;
+      this.messageprovider.
+      showWarning("Veuillez confirmer votre mot de passe","Modification de profi"); return;
     }
     let userdata: DataU = new DataU();
     userdata.email = this.sessionprovider.user.email;
@@ -51,19 +56,25 @@ export class UsersUpdateComponent implements OnInit {
         user.email = userForm.value['email'];
         this.userprovider.updateUser(user).then((user) => {
           if (user != null) {
-            this.message = "Votre compte a été mis à jour avec succès";
+            this.messageprovider.
+            showSuccess("Votre compte a été mis à jour avec succès","Modification de profi");
             this.reset();
           }
-          else
+          else{
             this.message = "Erreur innatendu";
+            this.messageprovider.
+            showError("Erreur inattendu","Modification de profi");}
         }).catch((err) => {
           this.message = err;
         });
 
       }
-      else this.message = "Mot de passe incorrect";
+      else 
+      this.messageprovider.
+      showError("Votre mot de passe est incorrect","Modification de profi");
     }).catch((err) => {
-      this.message = "Veuillez re-verifier votre mot de passe";
+      this.messageprovider.
+      showError("Votre mot de passe est incorrect","Modification de profi");
     });
   }
   async reset() {

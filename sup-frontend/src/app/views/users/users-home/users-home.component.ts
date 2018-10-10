@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserproviderService } from '../../../providers/userprovider.service';
 import { SessionproviderService } from '../../../providers/sessionprovider.service';
+import { MessageproviderService } from '../../../providers/messageprovider.service';
 import { User } from '../../../models/user.model';
 import { Page } from '../../../models/page.model';
 @Component({
@@ -17,14 +18,14 @@ export class UsersHomeComponent implements OnInit {
   confirm=false;
   choixuser:User=new User();
   order=false;
-  message="";
   column:string;
   usersbase:User[];
   title="Users List";
   usersinpage:Page<User>=new Page<User>();
   pages=[];
   constructor(private userprovider:UserproviderService,
-    private router: Router,private sessionprovider:SessionproviderService) { }
+    private router: Router,private sessionprovider:SessionproviderService,
+    private messageprovider:MessageproviderService) { }
 
   ngOnInit() {
     this.sessionprovider.auth();
@@ -49,10 +50,11 @@ export class UsersHomeComponent implements OnInit {
       this.reset();
     this.u=user;return;}
     await this.userprovider.deleteUser(user.id).then(()=>{
+      this.messageprovider.showSuccess("L'utilisateur a été supprimé","Suppression de compte");
       this.getAllUsersPages(this.usersinpage.number);
     })
     .catch((err)=>{
-      this.message=err;
+      this.messageprovider.showError("Impossible de faire la suppression","Suppression de compte");
     });
     this.reset();
   }
@@ -62,11 +64,18 @@ export class UsersHomeComponent implements OnInit {
     this.choixuser=user;
   }
   async update(user:User){
-    await this.userprovider.updateUser(user).then(()=>{
-      this.getAllUsersPages(this.usersinpage.number);
+    await this.userprovider.updateUser(user).then((user)=>{
+      if(user!=null){
+     this.messageprovider.showSuccess("Les informations ont été modifié avec succès","Mise à jour du compte");
+    }
+      else{
+        this.messageprovider.showError("Erreur intervenu pendant la modification","Mise à jour du compte");
+        this.getAllUsersPages(this.usersinpage.number);
+      }
     })
     .catch((err)=>{
-      this.message=err;
+      this.messageprovider.showError(err,"Mise à jour du compte");
+      this.getAllUsersPages(this.usersinpage.number);
     });
     this.reset();
     

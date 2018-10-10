@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Cour } from '../../../models/cour.model';
 import { CourproviderService } from '../../../providers/courprovider.service';
+import { MessageproviderService } from '../../../providers/messageprovider.service';
 import { Router } from '@angular/router';
 import { SessionproviderService } from '../../../providers/sessionprovider.service';
 
@@ -16,7 +17,7 @@ export class MescoursComponent implements OnInit {
   cour:Cour;
   coursbase: Cour[] = [];
   constructor(private courprovider: CourproviderService, private router: Router,
-    private sessionprovider: SessionproviderService) { }
+    private sessionprovider: SessionproviderService,private messageprovider:MessageproviderService) { }
 
   ngOnInit() {
     this.sessionprovider.auth();
@@ -71,6 +72,9 @@ export class MescoursComponent implements OnInit {
       cour.usersSuivi.push(this.sessionprovider.user);
     await this.courprovider.updateCour(cour).then(()=>{
       this.getAllCoursSuivi();
+      this.messageprovider.showSuccess("Votre requête a été prise en compte","Suivi de cour");
+    }).catch(()=>{
+      this.messageprovider.showError("Erreur inattendue","Suivi de cour");
     });
   }
    suivreetudiant(cour: Cour) {

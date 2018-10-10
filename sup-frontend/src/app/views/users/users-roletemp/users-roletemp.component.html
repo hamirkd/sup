@@ -1,6 +1,5 @@
 <div class="animated fadeIn">
   <div class="row">
-    <div *ngIf="message">{{message}}</div>
     <div class="col-md-8 mx-auto">
       <div class="card">
         <div class="card-header">
@@ -16,6 +15,7 @@
                 </div>
                 <select name="index" id="index" class="form-control" required name="index" [(ngModel)]="choixuser.id"
                   #role="ngModel" (click)="faitchoix(userForm)">
+                  <option value="">Choisir un utilisateur</option>
                   <option *ngFor="let user of users;let i=index" [value]="user.id">{{user.username+' ['+user.email+']
                     '}}</option>
                 </select>

@@ -5,6 +5,7 @@ import { SessionproviderService } from '../../providers/sessionprovider.service'
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { DataU } from '../../models/datau.model';
+import { MessageproviderService } from '../../providers/messageprovider.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,7 +17,7 @@ export class LoginComponent  implements OnInit {
   newUser: User = new User();
   message: string = "";
   constructor(private userprovider: UserproviderService, private router: Router,
-     private sessionprovider: SessionproviderService) {
+     private sessionprovider: SessionproviderService,private messageprovider:MessageproviderService) {
       this.newUser.email='daohamadou@gmail.y';
       this.newUser.password='dao';
      }
@@ -40,13 +41,16 @@ export class LoginComponent  implements OnInit {
         console.log(user.id + " Les informations de l'utilisateur");
         this.message = "";
         this.sessionprovider.save(user);
+        this.messageprovider.showSuccess("Bienvenu parmis nous!","Message de Bienvenu");
         this.sessionprovider.redirectAfterLogin();
         console.log("users", this.sessionprovider.user);        
       }
       else {
-        this.message = "Incorrect email or password";
         console.log("pas d'info");
+        this.messageprovider.showError("Incorrect email or password","Erreur");
       }
+    }).catch((err)=>{
+      this.messageprovider.showWarning("Erreur inattendu","Problème de connexion");
     });
   }
 

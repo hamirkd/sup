@@ -3,6 +3,7 @@ import { Cour } from '../../../models/cour.model';
 import { CourproviderService } from '../../../providers/courprovider.service';
 import { Router } from '@angular/router';
 import { SessionproviderService } from '../../../providers/sessionprovider.service';
+import { MessageproviderService } from '../../../providers/messageprovider.service';
 import { NgForm } from '@angular/forms';
 import { Classe } from '../../../models/classe.model';
 import { ClasseproviderService } from '../../../providers/classeprovider.service';
@@ -19,7 +20,8 @@ export class CoursAddComponent implements OnInit {
   classes:Classe[]=[];
   classesSave:Classe[]=[];
   constructor(private courprovider:CourproviderService, private router: Router,
-    private sessionprovider:SessionproviderService,private classeprovider:ClasseproviderService) {}
+    private sessionprovider:SessionproviderService,private classeprovider:ClasseproviderService,
+    private messageprovider:MessageproviderService) {}
 
   ngOnInit() {
     this.sessionprovider.auth();
@@ -41,8 +43,14 @@ export class CoursAddComponent implements OnInit {
     this.newCour.classes=this.classesSave;
     console.log(this.newCour);
     await  this.courprovider.createCour(this.newCour).then((cour)=>{
-      console.log("Cour apres enregistrement ",cour);
-    });
+      if(cour!=null)
+      this.messageprovider.showSuccess("Le cour a été ajouté avec succès","Création de cour");
+      else 
+      this.messageprovider.showError("Erreur intervenu","Création de cour");
+
+    }).catch(()=>{
+      this.messageprovider.showError("Erreur intervenu","Création de cour");})
+    ;
     console.log(this.router.navigate(['cours']));
   }
 

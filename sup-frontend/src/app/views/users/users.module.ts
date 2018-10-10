@@ -10,6 +10,7 @@ import { UserproviderService } from '../../providers/userprovider.service';
 import { UsersUpdateComponent } from './users-update/users-update.component';
 import { UsersRoletempComponent } from './users-roletemp/users-roletemp.component';
 import { RoleproviderService } from '../../providers/roleprovider.service';
+import { MessageproviderService } from '../../providers/messageprovider.service';
 
 @NgModule({
   imports: [
@@ -18,7 +19,7 @@ import { RoleproviderService } from '../../providers/roleprovider.service';
     FormsModule,
     HttpModule,
   ],
-  providers: [UserproviderService,RoleproviderService],
+  providers: [UserproviderService,RoleproviderService,MessageproviderService],
   declarations: [UsersAddComponent, UsersHomeComponent, UsersUpdateComponent, UsersRoletempComponent]
 })
 export class UsersModule { }

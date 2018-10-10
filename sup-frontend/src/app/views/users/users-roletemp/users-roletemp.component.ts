@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserproviderService } from '../../../providers/userprovider.service';
 import { SessionproviderService } from '../../../providers/sessionprovider.service';
+import { MessageproviderService } from '../../../providers/messageprovider.service';
 import { User } from '../../../models/user.model';
 import { Page } from '../../../models/page.model';
 import { Role } from '../../../models/role.model';
@@ -17,13 +18,13 @@ import { RoleproviderService } from '../../../providers/roleprovider.service';
 export class UsersRoletempComponent implements OnInit {
 
   choixuser:User=new User();
-  message="";
   roles:Role[];
   users:User[];
+  message="";
   title="Ajouter d'autre role";
   saveRoleTemp:RoleTemp[];
   constructor(private userprovider:UserproviderService,private roleprovider:RoleproviderService,
-    private router: Router,private sessionprovider:SessionproviderService) { }
+    private router: Router,private sessionprovider:SessionproviderService,private messageprovider:MessageproviderService) { }
 
   ngOnInit() {
     this.sessionprovider.auth();
@@ -74,12 +75,22 @@ export class UsersRoletempComponent implements OnInit {
   }
   addRole(nom:string,debut:Date,fin:Date){
     this.message="";
-    let role=this.roles.find((role)=>role.nom.toLocaleLowerCase().includes(nom.toLowerCase()));
+    if(nom==null)return;
+    let role=this.roles.find((role)=>role.nom.toLocaleLowerCase().
+    includes(nom.toLowerCase()));
     if(role==null)return;
-    if(fin.toString()==""){this.message="La date de fin est invalide";return;}
-    if(debut.toString()==""){this.message="La date de debut est invalide";return;}
-    if(debut>fin){this.message="La date de debut doit etre supérieure à la date de fin ";return;}
-    if(debut<new Date()||fin<new Date()){this.message="Ces dates sont dépassés, veuillez les vérifier";return;}
+    fin=new Date(fin);
+    debut=new Date(debut);
+    let today:Date=new Date();
+    console.log(fin,debut,today);
+    if(fin.toString()=="Invalid Date"){this.message="La date de fin est invalide";}
+    if(debut.toString()=="Invalid Date"){this.message="La date de debut est invalide";}
+    if(debut>fin){this.message="La date de debut doit etre supérieure à la date de fin ";}
+    if(fin<today){this.message="La date de fin est dépassée, veuillez le vérifier";}
+    if(this.message!=""){
+      this.messageprovider.showWarning(this.message,"Ajout de role temporaire");
+    return;}
+
     let roleTemp=new RoleTemp();
     roleTemp.nom=nom;
     roleTemp.debut=debut;
@@ -102,15 +113,19 @@ export class UsersRoletempComponent implements OnInit {
         this.choixuser.rolesTemp=this.saveRoleTemp;
         this.userprovider.updateUser(user).then((user)=>{
           if(user!=null){
-            this.message="La mise à jour a reussi";
+            this.messageprovider.showSuccess("Les rôles ont été mise à jour avec succès","Ajout de role");
+
             this.reset();
           }
           else
-          this.message="Erreur innatendu";
+          this.messageprovider.showError("Erreur inattendu","Ajout de role");
         }).catch((err)=>{this.message=err;});
       }
-      else this.message="Cet utilisateur n'existe pas";
-    }).catch((err)=>{this.message=err;});
+      else 
+      this.messageprovider.showError("Cet utilisateur n'existe pas","Ajout de role");
+    }).catch((err)=>{
+      this.messageprovider.showError("Erreur inattendu","Ajout de role");
+    });
   }
 
 }

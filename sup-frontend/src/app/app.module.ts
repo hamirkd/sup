@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-import { AlertsModule } from 'angular-alert-module';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
@@ -44,7 +44,11 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { UserproviderService } from './providers/userprovider.service';
 import { ClasseproviderService } from './providers/classeprovider.service';
 import { SessionproviderService } from './providers/sessionprovider.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';    
+import { MessageproviderService } from './providers/messageprovider.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+import { ToastrModule } from 'ngx-toastr';
+
 
 @NgModule({
   imports: [
@@ -59,7 +63,9 @@ import { FormsModule } from '@angular/forms';
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    ChartsModule,HttpModule,AlertsModule.forRoot(),
+    ChartsModule,HttpModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   declarations: [
     AppComponent,
@@ -72,7 +78,7 @@ import { FormsModule } from '@angular/forms';
   providers: [{
     provide: LocationStrategy,
     useClass: HashLocationStrategy
-  }, UserproviderService,ClasseproviderService, SessionproviderService
+  }, UserproviderService,ClasseproviderService, SessionproviderService,MessageproviderService
 ],
   bootstrap: [AppComponent]
 })

@@ -5,6 +5,7 @@ import { SessionproviderService } from '../../../providers/sessionprovider.servi
 import { Cour } from '../../../models/cour.model';
 import { Classe } from '../../../models/classe.model';
 import { ClasseproviderService } from '../../../providers/classeprovider.service';
+import { MessageproviderService } from '../../../providers/messageprovider.service';
 
 @Component({
   selector: 'app-cours-home',
@@ -19,7 +20,8 @@ export class CoursHomeComponent implements OnInit {
   classes:Classe[]=[];
   classesSave:Classe[]=[];
   constructor(private courprovider:CourproviderService,private classeprovider:ClasseproviderService,
-    private router: Router,private sessionprovider:SessionproviderService) { }
+    private router: Router,private sessionprovider:SessionproviderService,
+    private messageprovider:MessageproviderService) { }
 
   ngOnInit() {
     this.sessionprovider.auth();
@@ -61,9 +63,14 @@ export class CoursHomeComponent implements OnInit {
   async update(cour:Cour){
     cour.classes=this.classesSave;
     await this.courprovider.updateCour(cour).then((cour) => {
-      console.log(cour);
+      if(cour!=null){
+        this.messageprovider.showSuccess("Le cour a été mis à jour avec succès","Modification du cour");
+      }
+      else 
+      this.messageprovider.showError("Erreur inatendu","Modification du cour");
     }).catch(()=>{
       this.getAllCours();
+      this.messageprovider.showError("Erreur inatendu","Modification du cour");
     });
     this.choixcour=new Cour();
   }
@@ -76,7 +83,10 @@ export class CoursHomeComponent implements OnInit {
   async delete(cour:Cour){
     await this.courprovider.deleteCour(cour.id).then(()=>{
       this.cours.splice(this.cours.findIndex((co)=>co.id==cour.id),1);
-    })
+      this.messageprovider.showSuccess("Le cour a été supprimé avec succès","Suppression du cour");
+    }).catch(()=>{
+      this.messageprovider.showError("Erreur inatendu","Suppression du cour");
+    });
   }
 
   reset(){

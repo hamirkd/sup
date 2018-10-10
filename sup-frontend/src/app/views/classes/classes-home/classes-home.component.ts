@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Classe } from '../../../models/classe.model';
 import { ClasseproviderService } from '../../../providers/classeprovider.service';
-import { Router } from '@angular/router';
+import { MessageproviderService } from '../../../providers/messageprovider.service';
 import { SessionproviderService } from '../../../providers/sessionprovider.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-classes-home',
@@ -17,7 +18,7 @@ export class ClassesHomeComponent implements OnInit {
   message="";
   choixclasse:Classe=new Classe();
   constructor(private classeprovider:ClasseproviderService, private router: Router,
-    private sessionprovider:SessionproviderService) {}
+    private sessionprovider:SessionproviderService,private messageprovider:MessageproviderService) {}
 
   ngOnInit() {
     this.sessionprovider.auth();
@@ -36,18 +37,20 @@ export class ClassesHomeComponent implements OnInit {
   async delete(classe:Classe){
     await this.classeprovider.deleteClasse(classe.id).then(()=>{
       this.getAllClasses();
+      this.messageprovider.showSuccess("La classe a été supprimée avec succès","Suppression de classe");
     })
     .catch((err)=>{
-      this.message=err;
+      this.messageprovider.showError("Erreur intervenu pendant la suppression","Suppression de classe");
     });
   }
   async update(classe:Classe){
     await this.classeprovider.updateClasse(classe).then(()=>{
       this.getAllClasses();
+      this.messageprovider.showSuccess("La classe a été modifiée avec succès","Modification de classe");
       this.choixclasse=new Classe();
     })
-    .catch((err)=>{
-      this.message=err;
+    .catch((err)=>{   
+      this.messageprovider.showError("Erreur intervenu pendant la modification","Modiication de classe");
     });
   }
   

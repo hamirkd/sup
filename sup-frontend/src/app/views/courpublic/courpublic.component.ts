@@ -3,6 +3,7 @@ import { SessionproviderService } from '../../providers/sessionprovider.service'
 import { Router } from '@angular/router';
 import { Cour } from '../../models/cour.model';
 import { CourproviderService } from '../../providers/courprovider.service';
+import { MessageproviderService } from '../../providers/messageprovider.service';
 import { User } from '../../models/user.model';
 
 @Component({
@@ -15,7 +16,7 @@ export class CourpublicComponent implements OnInit {
   cours: Cour[] = [];
   coursbase: Cour[] = [];
   constructor(private courprovider: CourproviderService, private router: Router,
-    private sessionprovider: SessionproviderService) { }
+    private sessionprovider: SessionproviderService,private messageprovider:MessageproviderService) { }
 
   ngOnInit() {
     this.sessionprovider.auth();
@@ -63,7 +64,13 @@ export class CourpublicComponent implements OnInit {
     }
     else
       cour.usersSuivi.push(this.sessionprovider.user);
-    await this.courprovider.updateCour(cour);
+    await this.courprovider.updateCour(cour).then((cour)=>{
+      if(cour!=null)
+      this.messageprovider.showSuccess("Votre requête a été prise en compte","Suivi");
+    }).catch(()=>{
+      this.messageprovider.showError("Erreur inatendu","Suvi");
+    })
+    ;
   }
   verificateur(cour:Cour):Boolean{
     if(cour.usersSuivi==null)return false;

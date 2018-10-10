@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { User } from '../../../models/user.model';
 import { UserproviderService } from '../../../providers/userprovider.service';
 import { SessionproviderService } from '../../../providers/sessionprovider.service';
+import { MessageproviderService } from '../../../providers/messageprovider.service';
 import { Role } from '../../../models/role.model';
 import { DataU } from '../../../models/datau.model';
 
@@ -15,10 +16,9 @@ export class UsersAddComponent implements OnInit {
 
   title="Add User";
   newUser:DataU=new DataU();
-  message="";
 
   constructor(private userprovider:UserproviderService, private router: Router,
-    private sessionprovider:SessionproviderService) {
+    private sessionprovider:SessionproviderService,private messageprovider:MessageproviderService) {
      }
 
   ngOnInit() {
@@ -31,9 +31,12 @@ export class UsersAddComponent implements OnInit {
     
     this.userprovider.createUser(this.newUser).then((user)=>{
       if(user!=null){
-      this.message="Successful creation";
-    }else
-      this.message="Error occurred during creation";
+        this.messageprovider.showSuccess("L'utilisateur a été ajouté avec succès","Création de compte");
+        this.newUser=new DataU();
+      }else
+      this.messageprovider.showError("Vérifier les informations","Création de compte");
+    }).catch((err)=>{
+      this.messageprovider.showError(err,"Création de compte");
     });
   }
 
